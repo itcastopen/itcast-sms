@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.sms.mapper.MailListMapper">
+
+    <resultMap type="com.itheima.sms.entity.MailListEntity" id="mailListMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="dept" column="dept"/>
+        <result property="position" column="position"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="qq" column="qq"/>
+        <result property="wechat" column="wechat"/>
+        <result property="type" column="type"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+    <select id="listByPage" resultType="com.itheima.sms.dto.MailListDTO">
+        select ml.* from mail_list_group mlg
+        left join mail_list ml on ml.id = mlg.list_id
+        where mlg.group_id = #{mailListDTO.groupId}
+        <if test='null != mailListDTO.name'>and name like concat('%',#{mailListDTO.name},'%')</if>
+        <if test='null != mailListDTO.dept'>and dept = #{mailListDTO.dept}</if>
+        <if test='null != mailListDTO.position'>and position like concat('%', #{mailListDTO.position},'%')</if>
+        <if test='null != mailListDTO.phone'>and phone like concat('%', #{mailListDTO.phone},'%')</if>
+        <if test='null != mailListDTO.email'>and email like concat('%', #{mailListDTO.email},'%')</if>
+        <if test='null != mailListDTO.qq'>and qq like concat('%', #{mailListDTO.qq},'%')</if>
+        <if test='null != mailListDTO.wechat'>and wechat like concat('%', #{mailListDTO.wechat},'%')</if>
+        <if test='null != mailListDTO.type'>and type = #{mailListDTO.type}</if>
+        <if test='null != mailListDTO.isDelete'>and is_delete = #{mailListDTO.isDelete}</if>
+    </select>
+
+
+</mapper>

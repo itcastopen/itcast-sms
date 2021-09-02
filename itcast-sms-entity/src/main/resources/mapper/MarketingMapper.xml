@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.sms.mapper.MarketingMapper">
+
+    <resultMap type="com.itheima.sms.entity.MarketingEntity" id="marketingMap">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="template" property="template"/>
+        <result column="signature" property="signature"/>
+        <result column="mail_group" property="mailGroup"/>
+        <result column="mobiles" property="mobiles"/>
+        <result column="mobile_number" property="mobileNumber"/>
+        <result column="mobile_file" property="mobileFile"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="create_user_name" property="createUserName"/>
+        <result column="update_user_name" property="updateUserName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+    <select id="custom" resultType="com.itheima.sms.dto.MarketingDTO">
+        SELECT
+	        m.*,
+	        s.name as signature_name
+        FROM
+            marketing m
+            LEFT JOIN signature s ON m.signature = s.code
+        <where>
+            1 = 1
+            <if test="params.startCreateTime != null">
+                and m.create_time >= DATE_FORMAT(#{params.startCreateTime}, '%Y-%m-%d %H:%i:%S' )
+            </if>
+            <if test="params.endCreateTime != null">
+                and m.create_time <![CDATA[ <= ]]> DATE_FORMAT(#{params.endCreateTime}, '%Y-%m-%d %H:%i:%S' )
+            </if>
+            <if test="params.title != null">
+                and m.title LIKE concat('%',#{params.title},'%')
+            </if>
+            <if test="params.signatureName != null">
+                AND s.name LIKE concat('%',#{params.signatureName},'%')
+            </if>
+            <if test="params.status != null">
+                and m.status = #{params.status}
+            </if>
+        </where>
+        order by m.create_time desc
+    </select>
+</mapper>

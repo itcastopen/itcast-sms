@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+  master:
+    image: redis
+    container_name: redis-master
+    restart: always
+    # 16380 是定义的主库端口，默认:6379;  --requirepass 123456 是redis密码。
+    command: redis-server --port 16380 --requirepass 123456
+    ports:
+      # 将容器的16380端口映射到宿主机的16380端口上,第一个16380为宿主机端口。
+      - 16380:16380
+  slave1:
+    image: redis
+    container_name: redis-slave-1
+    restart: always
+    # 127.0.0.1 16380 为主库ip和端口（此处我们使用宿主机的ip和主库映射出来的端口）；16381 是定义的从库端口，默认:6379;  --requirepass 123456 是redis密码； --masterauth 123456 是主库的密码。
+    command: redis-server --slaveof 127.0.0.1 16380 --port 16381 --requirepass 123456 --masterauth 123456
+    ports:
+      - 16381:16381
+  slave2:
+    image: redis
+    container_name: redis-slave-2
+    restart: always
+    # 127.0.0.1 16380 为主库ip和端口（此处我们使用宿主机的ip和主库映射出来的端口）；16382 是定义的从库端口，默认:6379;  --requirepass 123456 是redis密码； --masterauth 123456 是主库的密码。
+    command: redis-server --slaveof 127.0.0.1 16380 --port 16382 --requirepass 123456 --masterauth 123456
+    ports:
+      - 16382:16382
