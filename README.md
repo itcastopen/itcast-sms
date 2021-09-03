@@ -1,7 +1,7 @@
 ![](http://www.itcast.cn/2018czgw/images/logo.png)
 ![](http://www.itcast.cn/2020gw/images/slogan2.jpg)
 
-集信达
+集信达-短信平台
 =========================
 
 - [后端Gitee地址](https://gitee.com/itcastopen/itcast-sms.git)
